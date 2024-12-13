@@ -2,3 +2,7 @@ name: Auction2
 version: '${project.version}'
 main: me.hilden.auction2.Auction2
 load: STARTUP
+commands:
+  ah:
+    usage: /ah sell Количество Цена
+    aliases: /фр

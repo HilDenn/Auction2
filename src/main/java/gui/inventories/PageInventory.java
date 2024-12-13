@@ -2,11 +2,14 @@ package gui.inventories;
 
 import gui.holders.PagesHolder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import static gui.inventories.GuiManager.getAhPages;
 
 public class PageInventory {
 
@@ -15,28 +18,33 @@ public class PageInventory {
     private int size;
     private int number;
 
-    private ArrayList<PageInventory> ahPages = new ArrayList<>();
+//    private ArrayList<PageInventory> ahPages = new ArrayList<>();
 
-    public PageInventory(String title, int size, int number) {
+    public PageInventory() {
         this.title = title;
         this.size = size;
-        this.number = number;
+        this.number = getAhPages().size() + 1;
 
-        this.inventory = Bukkit.createInventory(new PagesHolder(), size, title);
+        this.inventory = Bukkit.createInventory(new PagesHolder(), 54, "Страница " + number);
+        System.out.println("Инвентарь создан ауе брбр Inventory has been created");
 
-        ItemStack greenPane = GuiManager.createGlassPane("Вперед", "green");
-        ItemStack redPane = GuiManager.createGlassPane("Назад", "red");
-        ItemStack yellowPane = GuiManager.createGlassPane("На главную страницу", "yellow");
+        ItemStack yellowPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.YELLOW + "На главную страницу"), "yellow");
 
         inventory.setItem(49, yellowPane);
 
-        ahPages.add(this);
+        getAhPages().add(this);
 
-        if(ahPages.size() > 1){
-            ahPages.get(ahPages.size() - 2).getInventory().setItem(53, greenPane);
-            ahPages.get(ahPages.size() - 1).getInventory().setItem(45, redPane);
+        if(getAhPages().size() > 1){
+            ItemStack greenPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.GREEN + "Вперед"), "green");
+            ItemStack redPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.RED + "Назад"), "red");
+            getAhPages().get(getAhPages().size() - 2).getInventory().setItem(53, greenPane);
+            getAhPages().get(getAhPages().size() - 1).getInventory().setItem(45, redPane);
         }
     }
+
+//    public ArrayList<PageInventory> getAhPages() {
+//        return ahPages;
+//    }
 
     public Inventory getInventory() {
         return inventory;
@@ -52,5 +60,9 @@ public class PageInventory {
 
     public int getNumber() {
         return number;
+    }
+
+    public Inventory getLastInventory() {
+        return getAhPages().get(getAhPages().size() - 1).getInventory();
     }
 }

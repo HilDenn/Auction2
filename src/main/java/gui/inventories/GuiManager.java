@@ -1,5 +1,8 @@
 package gui.inventories;
 
+import gui.holders.AcceptHolder;
+import gui.holders.MainPageHolder;
+import gui.holders.StorageHolder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -10,19 +13,55 @@ import java.util.ArrayList;
 
 public class GuiManager {
 
-//    private FirstPage firstPage = new FirstPage();
-//    private MainPage mainPage = new MainPage();
-//    private Storage storage = new Storage();
-
-//    private ArrayList<Inventory> ahPages = new ArrayList<>();
-
-//    public ArrayList<Inventory> getAhPages() {
-//        return ahPages;
+//    private static GuiManager instance;
+//
+//    public static GuiManager getInstance(){
+//        if (instance == null) {
+//            instance = new GuiManager();
+//        }
+//        return instance;
 //    }
+
+    private static MainPageInventory mainPage;
+    private static MainPageInventory acceptPage;
+    private static MainPageInventory storage;
+
+    private PageInventory firstPage;
+
+    private static ArrayList<PageInventory> ahPages = new ArrayList<>();
 
     public GuiManager() {
 
+        mainPage = new MainPageInventory(new MainPageHolder(), "Главная страница", 54);
+        acceptPage = new MainPageInventory(new AcceptHolder(), "Вы подтверждаете действие?", 27);
+        storage = new MainPageInventory(new StorageHolder(), "Ваше хранилище", 54);
+
+        firstPage = new PageInventory();
+
+        ahPages.add(firstPage);
+
     }
+
+    public static ArrayList<PageInventory> getAhPages() {
+        return ahPages;
+    }
+
+    public static MainPageInventory getMainPage() {
+        return mainPage;
+    }
+
+    public static MainPageInventory getAcceptPage() {
+        return acceptPage;
+    }
+
+    public static MainPageInventory getStorage() {
+        return storage;
+    }
+
+    public static Inventory getLastPage(){
+        return ahPages.get(ahPages.size() - 1).getInventory();
+    }
+
 
     protected static ItemStack createGlassPane(String name, String color){
         ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE);

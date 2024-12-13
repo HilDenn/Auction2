@@ -21,10 +21,10 @@ public class MainPageInventory implements Accept, MainPage, Storage{
         this.size = size;
         this.inventory = Bukkit.createInventory(inventoryHolder, size, title);
 
-        if(inventoryHolder instanceof AcceptHolder) {
-            putPanes(inventory);
-        } else if(inventoryHolder instanceof Storage){
+        if(inventoryHolder instanceof Storage) {
             putPane(inventory);
+        } else if(inventoryHolder instanceof AcceptHolder){
+            putPanes(inventory);
         } else if(inventoryHolder instanceof MainPageHolder){
             placeItem(Material.CHEST, inventory, ChatColor.GOLD + "Аукцион" ,11);
             placeItem(Material.ENDER_CHEST, inventory, ChatColor.GOLD + "Ваше хранилище" ,15);
