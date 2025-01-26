@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 import static gui.AuctionManager.getAuctionItems;
 import static gui.inventories.GuiManager.*;
@@ -27,17 +29,19 @@ public class AuctionItem {
     private ItemStack itemStack;
     private int price;
     private int amount;
-    private int number;
+    private UUID number;
 
     public AuctionItem(Player player, ItemStack itemStack, int amount, int price) {
         this.player = player;
         this.price = price;
         this.amount = amount;
-        this.number = getAuctionItems().size() + 1;
+        this.number = UUID.randomUUID();
 
         lore.add(ChatColor.GOLD + "Купить за " + ChatColor.GREEN + price + "$");
         lore.add(ChatColor.BLUE + "Продает: " + ChatColor.WHITE + player.getName());
-        lore.add(ChatColor.DARK_GRAY + "Номер предмета: " + number);
+        lore.add(ChatColor.DARK_GRAY + "Номер предмета: " + this.number);
+
+
 
         ItemStack item = itemStack.clone();
         ItemMeta meta = item.getItemMeta();
@@ -72,7 +76,7 @@ public class AuctionItem {
         return amount;
     }
 
-    public int getNumber() {
+    public UUID getNumber() {
         return number;
     }
 

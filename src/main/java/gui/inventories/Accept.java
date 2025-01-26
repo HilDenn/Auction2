@@ -11,8 +11,8 @@ public interface Accept {
         ItemStack redPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.RED + "Не согласен"), "red");
         ItemStack yellowPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.YELLOW + "На главную страницу"), "yellow");
 
-        inventory.setItem(13, greenPane);
-        inventory.setItem(17, redPane);
+        inventory.setItem(13, redPane);
+        inventory.setItem(17, greenPane);
         inventory.setItem(21, yellowPane);
     }
 

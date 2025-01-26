@@ -3,6 +3,7 @@ package me.hilden.auction2;
 import command.AuctionCommands;
 import gui.inventories.GuiManager;
 import listener.AuctionPageListener;
+import listener.PlayerJoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,6 +11,7 @@ public final class Auction2 extends JavaPlugin {
     GuiManager guiManager = new GuiManager();
 
     AuctionPageListener auctionPageListener = new AuctionPageListener();
+    PlayerJoinListener playerJoinListener = new PlayerJoinListener();
     AuctionCommands auctionCommands = new AuctionCommands();
 
     @Override
@@ -17,6 +19,7 @@ public final class Auction2 extends JavaPlugin {
         // Plugin startup logic
 
         Bukkit.getPluginManager().registerEvents(auctionPageListener, this);
+        Bukkit.getPluginManager().registerEvents(playerJoinListener, this);
 
         getCommand("ah").setExecutor(auctionCommands);
     }

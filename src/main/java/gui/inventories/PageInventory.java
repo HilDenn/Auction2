@@ -35,10 +35,8 @@ public class PageInventory {
         getAhPages().add(this);
 
         if(getAhPages().size() > 1){
-            ItemStack greenPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.GREEN + "Вперед"), "green");
-            ItemStack redPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.RED + "Назад"), "red");
-            getAhPages().get(getAhPages().size() - 2).getInventory().setItem(53, greenPane);
-            getAhPages().get(getAhPages().size() - 1).getInventory().setItem(45, redPane);
+            getAhPages().get(getAhPages().size() - 2).getInventory().setItem(53, GuiManager.greenGlassPane);
+            getAhPages().get(getAhPages().size() - 1).getInventory().setItem(45, GuiManager.redGlassPane);
         }
     }
 

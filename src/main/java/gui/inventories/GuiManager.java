@@ -3,6 +3,7 @@ package gui.inventories;
 import gui.holders.AcceptHolder;
 import gui.holders.MainPageHolder;
 import gui.holders.StorageHolder;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -30,6 +31,11 @@ public class GuiManager {
 
     private static ArrayList<PageInventory> ahPages = new ArrayList<>();
 
+    public static ItemStack greenGlassPane;
+    public static ItemStack yellowGlassPane;
+    public static ItemStack redGlassPane;
+
+
     public GuiManager() {
 
         mainPage = new MainPageInventory(new MainPageHolder(), "Главная страница", 54);
@@ -39,6 +45,8 @@ public class GuiManager {
         firstPage = new PageInventory();
 
         ahPages.add(firstPage);
+
+        initialisePanes();
 
     }
 
@@ -63,7 +71,27 @@ public class GuiManager {
     }
 
 
-    protected static ItemStack createGlassPane(String name, String color){
+    private void initialisePanes(){
+        greenGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
+        ItemMeta greenMeta = greenGlassPane.getItemMeta();
+        greenMeta.setDisplayName(ChatColor.GREEN + "Вперед");
+        greenGlassPane.setItemMeta(greenMeta);
+        greenGlassPane.setDurability((short) 5);
+
+        yellowGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
+        ItemMeta yellowMeta = yellowGlassPane.getItemMeta();
+        yellowMeta.setDisplayName(ChatColor.YELLOW + "На главную");
+        yellowGlassPane.setItemMeta(yellowMeta);
+        yellowGlassPane.setDurability((short) 4);
+
+        redGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
+        ItemMeta redMeta = redGlassPane.getItemMeta();
+        redMeta.setDisplayName(ChatColor.RED + "Назад");
+        redGlassPane.setItemMeta(redMeta);
+        redGlassPane.setDurability((short) 14);
+    }
+
+    public static ItemStack createGlassPane(String name, String color){
         ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE);
         ItemMeta meta = pane.getItemMeta();
         meta.setDisplayName(name);
