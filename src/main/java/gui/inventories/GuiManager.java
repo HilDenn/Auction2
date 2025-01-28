@@ -27,7 +27,6 @@ public class GuiManager {
     private static MainPageInventory acceptPage;
     private static MainPageInventory storage;
 
-    private PageInventory firstPage;
 
     private static ArrayList<PageInventory> ahPages = new ArrayList<>();
 
@@ -42,9 +41,6 @@ public class GuiManager {
         acceptPage = new MainPageInventory(new AcceptHolder(), "Вы подтверждаете действие?", 27);
         storage = new MainPageInventory(new StorageHolder(), "Ваше хранилище", 54);
 
-        firstPage = new PageInventory();
-
-        ahPages.add(firstPage);
 
         initialisePanes();
 

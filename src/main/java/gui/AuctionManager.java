@@ -29,8 +29,11 @@ public class AuctionManager {
         return auctionItems;
     }
 
-    public static void sellItem(Player player, ItemStack itemStack, int amount, int price) {
-        if (getLastPage().getItem(getLastPage().getSize() - 10) != null) {
+    public static void sellItem(Player player, ItemStack itemStack, int amount, int price){
+        if(getAhPages().isEmpty()){
+            PageInventory firstPage = new PageInventory();
+            System.out.println("The first page has been created");
+        } else if(getLastPage() != null && getLastPage().getItem(getLastPage().getSize() - 10) != null){
             player.sendMessage("Должно работать вроде");
             System.out.println("A page has been created from sellItem method");
             PageInventory newPage = new PageInventory();
