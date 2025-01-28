@@ -32,6 +32,7 @@ public class AuctionManager {
     public static void sellItem(Player player, ItemStack itemStack, int amount, int price) {
         if (getLastPage().getItem(getLastPage().getSize() - 10) != null) {
             player.sendMessage("Должно работать вроде");
+            System.out.println("A page has been created from sellItem method");
             PageInventory newPage = new PageInventory();
         }
 
@@ -126,23 +127,23 @@ public class AuctionManager {
         player.updateInventory();
 
 
-        // todo
+
+
+
         if (getAuctionItems().isEmpty()) return;
 
         int ai = 0;
         for (PageInventory pageInventory : getAhPages()){
-//            if (!(inventoryBeforeAcceptPage.getName().equals(pageInventory.getInventory().getName()))) {
-//                continue;
-//            }
-//            int i = 0;
-//            for (int i = 0; i <= 45; i++){
-//                pageInventory.getInventory().clear(i);
-//            }
             pageInventory.getInventory().clear();
+
             pageInventory.getInventory().setItem(49 , yellowGlassPane);
 
             for(; ai <= (getAuctionItems().size() - 1); ai++){
+
                 pageInventory.getInventory().addItem(getAuctionItems().get(ai).getItemStack());
+                player.sendMessage("Ауф брбр");
+                player.sendMessage("Страницы размер - " + getAhPages().size());
+                player.sendMessage("Номер страницы - " + pageInventory.getNumber());
 
                 if (getAhPages().get(pageInventory.getNumber() - 1).getInventory().getItem(pageInventory.getInventory().getSize() - 9) != null){
                     player.sendMessage("Абоби писи каки");
@@ -152,20 +153,21 @@ public class AuctionManager {
 
             }
             getAhPages().get(pageInventory.getNumber() - 1).getInventory().clear(45);
-//            pageInventory.getInventory().setItem(45, GuiManager.createGlassPane("Назад", "red"));
+
 
             if(getAhPages().size() > 1){
                 if(pageInventory.getNumber() == 1){
                     pageInventory.getInventory().setItem(53, greenGlassPane);
+                    player.sendMessage("Панель вперед");
                 } else if(pageInventory.getNumber() == getAhPages().size()){
                     pageInventory.getInventory().setItem(45, redGlassPane);
+                    player.sendMessage("Панель назад");
                 } else {
                     pageInventory.getInventory().setItem(53, greenGlassPane);
                     pageInventory.getInventory().setItem(45, redGlassPane);
+                    player.sendMessage("И то и то");
                 }
             }
-
-//            pageInventory.getInventory().setItem(45, redGlassPane);
 
             player.updateInventory();
         }
@@ -173,38 +175,6 @@ public class AuctionManager {
 
 
 
-
-//        int pageNum = 0;
-//        for (PageInventory pageInventory : getAhPages()){
-//            if (!(inventoryBeforeAcceptPage.getName().equals(pageInventory.getInventory().getName()))) {
-//                continue;
-//            }
-////            int i = 0;
-//            for (int i = 0; i < 44; i++){
-//                if (pageInventory.getInventory().getItem(i) == null && pageInventory.getInventory().getItem(i + 1) != null){
-//
-//                    pageInventory.getInventory().setItem(i, pageInventory.getInventory().getItem(i + 1));
-//                    pageInventory.getInventory().setItem(i + 1, new ItemStack(Material.AIR));
-//                    player.sendMessage("Прошло да");
-//
-//                    if (getAhPages().size() > pageNum + 1 && getAhPages().size() > 2) {
-//                        player.sendMessage("уф уф");
-//                        player.sendMessage(getAhPages().size() + " aa dada");
-//
-//                        player.sendMessage(pageInventory.getNumber() + "numberrrererer");
-//
-//                        if (getAhPages().get(pageInventory.getNumber() - 1) != null &&
-//                                getAhPages().get(pageInventory.getNumber() - 1).getInventory() != null &&
-//                                !getAhPages().get(pageInventory.getNumber() - 1).getInventory().getName().equals(getLastPage().getName()) &&
-//                                getAhPages().get(pageInventory.getNumber() - 1).getInventory().getItem(1) != null){
-//                            pageInventory.getInventory().setItem(44, getAhPages().get(pageInventory.getNumber() - 1).getInventory().getItem(0));
-//                        }
-//                    }
-//                }
-//            }
-//            player.updateInventory();
-//            pageNum++;
-//        }
 
         inventoryBeforeAcceptPage = null;
 
