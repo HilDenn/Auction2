@@ -50,7 +50,7 @@ public class AuctionPageListener implements Listener {
 
             } else if (event.getClickedInventory().getHolder() instanceof AcceptHolder){
 
-                if(event.getSlot() == 13){
+                if(event.getSlot() == 11){
                     player.sendMessage("Галя, отмена");
                     player.openInventory(GuiManager.getLastPage());
                     return;
@@ -60,7 +60,7 @@ public class AuctionPageListener implements Listener {
                     player.openInventory(GuiManager.getMainPage().getInventory());
                     return;
 
-                } else if(event.getSlot() == 17){
+                } else if(event.getSlot() == 15){
                     player.sendMessage("Продолжаем");
                     AuctionManager.buyItem(player, event, false);
                     return;

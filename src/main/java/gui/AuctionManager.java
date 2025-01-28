@@ -55,9 +55,10 @@ public class AuctionManager {
 
         if (event.getClickedInventory().getHolder() instanceof PagesHolder) {
             inventoryBeforeAcceptPage = event.getClickedInventory();
-            if (isAcceptOn) {
+            if(isAcceptOn){
                 ItemStack is = event.getCurrentItem();
                 itemBeforeAcceptPage = getAuctionItemByItemStack(is);
+                getAcceptPage().getInventory().setItem(13, itemBeforeAcceptPage.getItemStack());
                 player.openInventory(getAcceptPage().getInventory());
                 return;
             }
@@ -66,7 +67,7 @@ public class AuctionManager {
         int slot = event.getSlot();
         if (slot >= 45 && slot <= 53) return;
 
-        if (event.getClickedInventory().getHolder() instanceof AcceptHolder && event.getSlot() == 17) {
+        if (event.getClickedInventory().getHolder() instanceof AcceptHolder && event.getSlot() == 15) {
             if (itemBeforeAcceptPage == null) return;
 
             player.sendMessage("Короче ну да ээ");

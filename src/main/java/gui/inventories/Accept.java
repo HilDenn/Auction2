@@ -1,5 +1,6 @@
 package gui.inventories;
 
+import gui.AuctionManager;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -11,9 +12,11 @@ public interface Accept {
         ItemStack redPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.RED + "Не согласен"), "red");
         ItemStack yellowPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.YELLOW + "На главную страницу"), "yellow");
 
-        inventory.setItem(13, redPane);
-        inventory.setItem(17, greenPane);
-        inventory.setItem(21, yellowPane);
+        inventory.setItem(11, redPane);
+        inventory.setItem(15, greenPane);
+        inventory.setItem(22, yellowPane);
+
+
     }
 
 }
