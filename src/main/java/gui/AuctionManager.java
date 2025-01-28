@@ -131,9 +131,7 @@ public class AuctionManager {
 
 
 
-
-
-        if (getAuctionItems().isEmpty()) return;
+//        if (getAuctionItems().isEmpty()) return;
 
         int ai = 0;
         for (PageInventory pageInventory : getAhPages()){
@@ -176,16 +174,29 @@ public class AuctionManager {
         }
 
 
-
-
-
         inventoryBeforeAcceptPage = null;
 
-        if (((getLastPage().getItem(0) == null || getLastPage().getItem(0).getType() == Material.AIR) && ((getLastPage().getItem(1) == null || getLastPage().getItem(1).getType() == Material.AIR) || (getLastPage().getItem(2) == null || getLastPage().getItem(2).getType() == Material.AIR)))){
+        player.sendMessage(getLastPage().getName());
+        if(getLastPage().getName().equals(event.getClickedInventory().getName())) player.sendMessage("AUDFUASDOuSADHOIAIHOSDHIASODHIASDHJIPKSDAJIPHADS");
+
+        System.out.println("Item 0: " + getLastPage().getItem(0));
+        System.out.println("Item 1: " + getLastPage().getItem(1));
+        System.out.println("Item 2: " + getLastPage().getItem(2));
+
+        System.out.println("Amount of items: " + getAuctionItems().size());
+
+        if((getLastPage().getItem(0) == null && (getLastPage().getItem(1) == null || getLastPage().getItem(2) == null))){
+
+//        if(((getLastPage().getItem(0) == null || getLastPage().getItem(0).getType() == Material.AIR) && ((getLastPage().getItem(1) == null || getLastPage().getItem(1).getType() == Material.AIR) || (getLastPage().getItem(2) == null || getLastPage().getItem(2).getType() == Material.AIR)))){
             getAhPages().remove(getAhPages().size() - 1);
             player.sendMessage("Размер ахпагеса = " + getAhPages().size());
-            getLastPage().remove(54);
-            player.openInventory(getLastPage());
+            if(!getAhPages().isEmpty()) {
+                getLastPage().remove(54);
+                player.openInventory(getLastPage());
+            } else {
+                player.openInventory(getMainPage().getInventory());
+            }
+
         }
     }
 
