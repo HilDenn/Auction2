@@ -181,8 +181,9 @@ public class AuctionManager {
 
         inventoryBeforeAcceptPage = null;
 
-        if ((getLastPage().getItem(0) == null && (getLastPage().getItem(1) == null || getLastPage().getItem(2) == null)) && getAhPages().size() > 1){
+        if (((getLastPage().getItem(0) == null || getLastPage().getItem(0).getType() == Material.AIR) && ((getLastPage().getItem(1) == null || getLastPage().getItem(1).getType() == Material.AIR) || (getLastPage().getItem(2) == null || getLastPage().getItem(2).getType() == Material.AIR)))){
             getAhPages().remove(getAhPages().size() - 1);
+            player.sendMessage("Размер ахпагеса = " + getAhPages().size());
             getLastPage().remove(54);
             player.openInventory(getLastPage());
         }
