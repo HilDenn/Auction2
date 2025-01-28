@@ -44,7 +44,7 @@ public class GuiManager {
 
         firstPage = new PageInventory();
 
-        ahPages.add(firstPage);
+//        ahPages.add(firstPage);
 
         initialisePanes();
 
