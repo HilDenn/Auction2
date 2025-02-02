@@ -2,6 +2,7 @@ package gui.inventories;
 
 import gui.AuctionItem;
 import gui.AuctionManager;
+import gui.AuctionSettings;
 import gui.holders.AcceptHolder;
 import gui.holders.MainPageHolder;
 import gui.holders.StorageHolder;
@@ -26,8 +27,10 @@ public class GuiManager {
 //        }
 //        return instance;
 //    }
-    private static ArrayList<String> sortingUp;
-    private static ArrayList<String> sortingDown;
+static AuctionSettings auctionSettings = AuctionSettings.getInstance();
+
+    private static ArrayList<String> sortingUp = new ArrayList<>();
+    private static ArrayList<String> sortingDown = new ArrayList<>();
 
     private static MainPageInventory mainPage;
     private static MainPageInventory acceptPage;
@@ -57,7 +60,7 @@ public class GuiManager {
 
 
         initialisePanes();
-//        initialiseSortingLores();
+        initialiseSortingLores();
 
     }
 
@@ -81,13 +84,13 @@ public class GuiManager {
         return ahPages.get(ahPages.size() - 1).getInventory();
     }
 
-//    private void initialiseSortingLores(){
-//        sortingUp.add(ChatColor.BOLD + (ChatColor.WHITE + "Сортировать: раньше"));
-//        sortingUp.add(ChatColor.BOLD + (ChatColor.GRAY + "Сортировать: позже"));
-//
-//        sortingUp.add(ChatColor.BOLD + (ChatColor.GRAY + "Сортировать: раньше"));
-//        sortingUp.add(ChatColor.BOLD + (ChatColor.WHITE + "Сортировать: позже"));
-//    }
+    private void initialiseSortingLores(){
+        sortingUp.add(ChatColor.BOLD + (ChatColor.WHITE + "Сортировать: раньше"));
+        sortingUp.add(ChatColor.BOLD + (ChatColor.GRAY + "Сортировать: позже"));
+
+        sortingDown.add(ChatColor.BOLD + (ChatColor.GRAY + "Сортировать: раньше"));
+        sortingDown.add(ChatColor.BOLD + (ChatColor.WHITE + "Сортировать: позже"));
+    }
 
     private void initialisePanes(){
         greenGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
@@ -133,7 +136,7 @@ public class GuiManager {
     public static ItemStack getSortingItem(boolean bool){
         ItemStack item = new ItemStack(Material.WATCH);
         ItemMeta meta = item.getItemMeta();
-
+        meta.setDisplayName(ChatColor.YELLOW + "Сортировать: ");
         if(bool){
             meta.setLore(sortingUp);
         } else {
@@ -196,6 +199,7 @@ public class GuiManager {
 
             Inventory inventory = Bukkit.createInventory(new StorageHolder(), 54, "Ваше хранилище");
 
+            inventory.setItem(47, getSortingItem(auctionSettings.isSortingUpStoragePage(player)));
             inventory.setItem(49, yellowGlassPane);
 
             for (AuctionItem auctionItem : AuctionManager.getPlayersItems().get(player)) {

@@ -1,7 +1,6 @@
 package gui;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerUnleashEntityEvent;
 
 import java.util.HashMap;
 
@@ -40,16 +39,28 @@ public class AuctionSettings {
 
     }
 
-//    private HashMap<Player, Boolean> sorting = new HashMap<>();
-//
-//    public HashMap<Player, Boolean> getSorting() {
-//        return sorting;
-//    }
-//
-//    public boolean isSortingUp(Player player){
-//        if(sorting.containsKey(player)) return sorting.get(player);
-//        return false;
-//
-//    }
+    private HashMap<Player, Boolean> sortingAuctionPage = new HashMap<>();
+
+    public HashMap<Player, Boolean> getSortingAuctionPage() {
+        return sortingAuctionPage;
+    }
+
+    public boolean isSortingUpAuctionPage(Player player){
+        if(sortingAuctionPage.containsKey(player)) return sortingAuctionPage.get(player);
+        return false;
+
+    }
+
+    private HashMap<Player, Boolean> sortingStoragePage = new HashMap<>();
+
+    public HashMap<Player, Boolean> getSortingStoragePage() {
+        return sortingStoragePage;
+    }
+
+    public boolean isSortingUpStoragePage(Player player){
+        if(sortingStoragePage.containsKey(player)) return sortingStoragePage.get(player);
+        return false;
+
+    }
 
 }

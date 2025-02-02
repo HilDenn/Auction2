@@ -73,6 +73,15 @@ public class AuctionPageListener implements Listener {
 
 //                    AuctionManager.buyItem(player, event, false);
 
+
+
+                }
+
+                if(event.getSlot() == 47){
+
+                    auctionSettings.getSortingStoragePage().put(player, !auctionSettings.isSortingUpStoragePage(player));
+                    AuctionManager.arrangeItemsInStorage(player);
+
                 }
 
 
@@ -128,9 +137,10 @@ public class AuctionPageListener implements Listener {
                             break;
                         }
 
-//                        if(event.getSlot() == 47){
-//                            auctionSettings.getSorting().put(player, !auctionSettings.getSorting().get(player));
-//                        }
+                        if(event.getSlot() == 47){
+                            auctionSettings.getSortingAuctionPage().put(player, !auctionSettings.isSortingUpAuctionPage(player));
+                            AuctionManager.arrangeItems(player);
+                        }
 
                     }
                     event.setCancelled(true);

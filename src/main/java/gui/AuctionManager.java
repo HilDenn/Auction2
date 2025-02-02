@@ -51,8 +51,8 @@ public class AuctionManager {
         getLastPage().addItem(item.getItemStack());
 //        getPlayersItems().put(player, getAuctionItemByItemStack(itemStack));
         removeItemFromMainHand(player, amount);
-
         addItemToStorage(player, item);
+        arrangeItems(player);
 
     }
 
@@ -153,66 +153,114 @@ public class AuctionManager {
 
 
     public static void arrangeItems(Player player){
-        int ai = 0;
-        for (PageInventory pageInventory : getAhPages()){
+        if(auctionSettings.isSortingUpAuctionPage(player)) {
 
-            if(getAuctionItems().isEmpty()){
+            int ai = 0;
+            for (PageInventory pageInventory : getAhPages()) {
 
-                getAhPages().remove(0);
-                return;
+                if (getAuctionItems().isEmpty()) {
 
-            }
+                    getAhPages().remove(0);
+                    return;
 
-            pageInventory.getInventory().clear();
-
-            pageInventory.getInventory().setItem(49 , yellowGlassPane);
-
-            for(; ai <= (getAuctionItems().size() - 1); ai++){
-
-                pageInventory.getInventory().addItem(getAuctionItems().get(ai).getItemStack());
-
-                if (getAhPages().get(pageInventory.getNumber() - 1).getInventory().getItem(pageInventory.getInventory().getSize() - 9) != null){
-
-                    break;
                 }
 
-            }
-            getAhPages().get(pageInventory.getNumber() - 1).getInventory().clear(45);
+                pageInventory.getInventory().clear();
 
+                pageInventory.getInventory().setItem(49, yellowGlassPane);
 
-            if(getAhPages().size() > 1){
-                if(pageInventory.getNumber() == 1){
-                    pageInventory.getInventory().setItem(53, greenGlassPane);
-                } else if(pageInventory.getNumber() == getAhPages().size()){
-                    pageInventory.getInventory().setItem(45, redGlassPane);
-                } else {
-                    pageInventory.getInventory().setItem(53, greenGlassPane);
-                    pageInventory.getInventory().setItem(45, redGlassPane);
+                for (; ai <= (getAuctionItems().size() - 1); ai++) {
+
+                    pageInventory.getInventory().addItem(getAuctionItems().get(ai).getItemStack());
+
+                    if (getAhPages().get(pageInventory.getNumber() - 1).getInventory()
+                            .getItem(pageInventory.getInventory().getSize() - 9) != null) {
+
+                        break;
+                    }
+
                 }
-            }
+                getAhPages().get(pageInventory.getNumber() - 1).getInventory().clear(45);
 
+
+                if (getAhPages().size() > 1) {
+                    if (pageInventory.getNumber() == 1) {
+                        pageInventory.getInventory().setItem(53, greenGlassPane);
+                    } else if (pageInventory.getNumber() == getAhPages().size()) {
+                        pageInventory.getInventory().setItem(45, redGlassPane);
+                    } else {
+                        pageInventory.getInventory().setItem(53, greenGlassPane);
+                        pageInventory.getInventory().setItem(45, redGlassPane);
+                    }
+                }
+                pageInventory.getInventory().setItem(47, getSortingItem(auctionSettings.isSortingUpAuctionPage(player)));
+            }
+        } else {
+                int ai = getAuctionItems().size() - 1;
+                for (PageInventory pageInventory : getAhPages()) {
+
+                    if (getAuctionItems().isEmpty()) {
+
+                        getAhPages().remove(0);
+                        return;
+
+                    }
+
+                    pageInventory.getInventory().clear();
+
+                    pageInventory.getInventory().setItem(49, yellowGlassPane);
+
+                    for (; ai >= 0; ai--) {
+
+                        pageInventory.getInventory().addItem(getAuctionItems().get(ai).getItemStack());
+
+                        if (getAhPages().get(pageInventory.getNumber() - 1).getInventory()
+                                .getItem(pageInventory.getInventory().getSize() - 9) != null) {
+
+                            break;
+                        }
+
+                    }
+                    getAhPages().get(pageInventory.getNumber() - 1).getInventory().clear(45);
+
+
+                    if (getAhPages().size() > 1) {
+                        if (pageInventory.getNumber() == 1) {
+                            pageInventory.getInventory().setItem(53, greenGlassPane);
+                        } else if (pageInventory.getNumber() == getAhPages().size()) {
+                            pageInventory.getInventory().setItem(45, redGlassPane);
+                        } else {
+                            pageInventory.getInventory().setItem(53, greenGlassPane);
+                            pageInventory.getInventory().setItem(45, redGlassPane);
+                        }
+                    }
+                    pageInventory.getInventory().setItem(47, getSortingItem(auctionSettings.isSortingUpAuctionPage(player)));
+            }
             player.updateInventory();
         }
     }
 
     public static void arrangeItemsInStorage(Player player){
-        if(GuiManager.getPlayersInventories().containsKey(player)){
+        if(GuiManager.getPlayersInventories().containsKey(player)) {
 
-            if(AuctionManager.getPlayersItems().get(player).isEmpty()){
-                GuiManager.getPlayersInventories().remove(player);
-                player.openInventory(getMainPage().getInventory());
-                return;
-            }
+            if (auctionSettings.isSortingUpStoragePage(player)) {
 
-            Inventory inv = getPlayersInventories().get(player);
+                if (AuctionManager.getPlayersItems().get(player).isEmpty()) {
+                    GuiManager.getPlayersInventories().remove(player);
+                    player.openInventory(getMainPage().getInventory());
+                    return;
+                }
 
-            inv.clear();
+                Inventory inv = getPlayersInventories().get(player);
 
-            inv.setItem(49, yellowGlassPane);
+                inv.clear();
 
-            for(AuctionItem item : getPlayersItems().get(player)){
-                inv.addItem(item.getItemStack());
-            }
+                inv.setItem(47, getSortingItem(auctionSettings.isSortingUpStoragePage(player)));
+                inv.setItem(49, yellowGlassPane);
+
+                for (AuctionItem item : getPlayersItems().get(player)) {
+                    inv.addItem(item.getItemStack());
+                }
 //
 //            for(int i = 0; i <= getPlayersItems().get(player).size() - 1; i++){
 //                if(inv.getItem(i) == null && inv.getItem(i + 1) == null){
@@ -221,12 +269,36 @@ public class AuctionManager {
 //                }
 //            }
 //
-            if(player.getOpenInventory().getTopInventory().getHolder() instanceof StorageHolder) {
-                player.updateInventory();
-                player.sendMessage("ауф бырбырбыр");
+                if (player.getOpenInventory().getTopInventory().getHolder() instanceof StorageHolder) {
+                    player.updateInventory();
+                    player.sendMessage("ауф бырбырбыр");
+                }
+            } else {
+
+                if (AuctionManager.getPlayersItems().get(player).isEmpty()) {
+                    GuiManager.getPlayersInventories().remove(player);
+                    player.openInventory(getMainPage().getInventory());
+                    return;
+                }
+
+                Inventory inv = getPlayersInventories().get(player);
+
+                inv.clear();
+
+                inv.setItem(47, getSortingItem(auctionSettings.isSortingUpStoragePage(player)));
+                inv.setItem(49, yellowGlassPane);
+
+                for (int i = getPlayersItems().get(player).size() - 1; i >= 0; i--) {
+                    inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                }
+
+                if (player.getOpenInventory().getTopInventory().getHolder() instanceof StorageHolder) {
+                    player.updateInventory();
+                    player.sendMessage("ауф бырбырбыр");
+                }
             }
         }
-
+    }
 //        if(player.getOpenInventory().getTopInventory().getHolder() instanceof StorageHolder){
 //            Inventory inv = player.getOpenInventory().getTopInventory();
 //            for(int i = 0; i >= getPlayersItems().get(player).size(); i++){
@@ -247,7 +319,7 @@ public class AuctionManager {
 //
 //        } else return;
 
-    }
+
 
     public static void addItemToStorage(Player player, AuctionItem item){
         if(!getPlayersItems().containsKey(player)){
