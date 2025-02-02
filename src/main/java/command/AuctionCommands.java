@@ -27,7 +27,6 @@ public class AuctionCommands implements CommandExecutor {
                 try {
                     amount = Integer.parseInt(args[1].trim());
                     price = Integer.parseInt(args[2].trim());
-                    player.sendMessage("num = " + args[1]);
                 } catch (NumberFormatException nfe) {
                     System.out.println("NumberFormatException: " + nfe.getMessage());
                     player.sendMessage("Введите количество и цену!");
@@ -36,7 +35,6 @@ public class AuctionCommands implements CommandExecutor {
 
                 if(price != 0 && amount != 0 && args[1] != null && args[2] != null && player.getInventory().getItemInMainHand().getType() != Material.AIR) {
                     if(player.getInventory().getItemInMainHand().getAmount() >= price) {
-                        player.sendMessage("Ваш предмет в руках" + player.getInventory().getItemInMainHand().toString());
 
                         ItemStack itemStack = player.getInventory().getItemInHand();
 

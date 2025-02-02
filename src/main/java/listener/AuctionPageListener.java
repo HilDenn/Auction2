@@ -9,6 +9,7 @@ import gui.holders.PagesHolder;
 import gui.holders.StorageHolder;
 import gui.inventories.GuiManager;
 import gui.inventories.Storage;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,71 +35,103 @@ public class AuctionPageListener implements Listener {
 
             if (event.getCurrentItem() == null) return;
             else if (event.getInventory().getHolder() instanceof MainPageHolder){
-                if(!(getAhPages().isEmpty())){
-                    openInventory(getLastPage(), event, 11);
-                } else {
-                    player.closeInventory();
-                    player.sendMessage("К сожалению, нет ни одного выставленного предмета на аукционе!");
-                    player.sendMessage("Выставите первый предмет на продажу сами!");
-                }
-                openInventory(GuiManager.getStorage().getInventory(), event, 15);
+                if(event.getSlot() == 11){
+                    if (!(getAhPages().isEmpty())) {
+                        openInventory(getLastPage(), event, 11);
+                    } else {
+                        player.sendMessage("К сожалению, нет ни одного выставленного предмета на аукционе!");
+                        player.sendMessage("Выставите первый предмет на продажу сами!");
+                    }
+                } else if(event.getSlot() == 15){
 
-            } else if (event.getInventory().getHolder() instanceof StorageHolder) {
-                event.getWhoClicked().sendMessage("ауе");
+                    openStorageInventory(player);
+
+//                    if(!AuctionManager.getPlayersItems().containsKey(player)){
+//                        player.sendMessage("У вас нет ни одного выставленного товара на аукционе!");
+//                        player.sendMessage("Выставите свой первый товар командой /ah sell 'количество' 'цена' ");
+//                    } else {
+//                        createAndOpenStorageInventory(player);
+//                    }
+                }
+
+            } else if (event.getInventory().getHolder() instanceof StorageHolder){
                 openInventory(getMainPage().getInventory(), event, 49);
                 event.setCancelled(true);
+
+                if((event.getClick().isRightClick() || event.getClick().isLeftClick()) && event.getSlot() < 45 && event.getCurrentItem().getType() != Material.AIR){
+//                    if((event.getCurrentItem() != null || event.getCurrentItem().getType() != Material.AIR) && event.getSlot() < 45){
+
+//                        GuiManager.getPlayersInventories().get(player).remove(event.getCurrentItem());
+//                        AuctionManager.getPlayersItems().get(player).remove(AuctionManager.getAuctionItemByItemStack(event.getCurrentItem()));
+//                        AuctionManager.getAuctionItems().remove(AuctionManager.getAuctionItemByItemStack(event.getCurrentItem()));
+                    AuctionManager.removeItemFromStorage(player, event, auctionSettings.isAcceptOnStorage(player));
+                    player.sendMessage("ауф брбрб");
+//                        player.closeInventory();
+//                        createAndOpenStorageInventory(player);
+
+//                    }
+
+//                    AuctionManager.buyItem(player, event, false);
+
+                }
+
 
             } else if (event.getClickedInventory().getHolder() instanceof AcceptHolder){
 
                 if(event.getSlot() == 11){
-                    player.sendMessage("Галя, отмена");
                     player.openInventory(GuiManager.getLastPage());
                     return;
 
-                } else if(event.getSlot() == 21) {
-                    player.sendMessage("Ладно иди нахуй");
+                } else if(event.getSlot() == 22) {
                     player.openInventory(GuiManager.getMainPage().getInventory());
                     return;
 
                 } else if(event.getSlot() == 15){
-                    player.sendMessage("Продолжаем");
-                    AuctionManager.buyItem(player, event, false);
-                    return;
+                    player.sendMessage("прашло");
+                    if(AuctionManager.inventoryBeforeAcceptPageName.equals("Auction")){
+                        AuctionManager.buyItem(player, event, false);
+                        player.sendMessage("прашло в аук" );
+                        return;
+                    } else if(AuctionManager.inventoryBeforeAcceptPageName.equals("Storage")){
+                        AuctionManager.removeItemFromStorage(player, event, false);
+                        player.sendMessage("прашло в стораж");
+                        return;
+                    }
+
                 }
 
             } else if (event.getClickedInventory().getHolder() instanceof PagesHolder){
-                    player.sendMessage("ahahahahahaahha");
                     if (event.getSlot() < 45) {
                         // todo
 
-                        AuctionManager.buyItem(player, event, auctionSettings.isAcceptOn(player));
+                        AuctionManager.buyItem(player, event, auctionSettings.isAcceptOnAuc(player));
 
-                        player.sendMessage("aue brbrbr shkebede");
 
                     } else {
                         openInventory(getMainPage().getInventory(), event, 49);
-                        event.getWhoClicked().sendMessage("еее бр шкебеде доп доп доп ес ес");
                         for (int i = 0; i <= getAhPages().size(); i++){
                             if(getAhPages().get(i).getInventory().getName().equals(event.getClickedInventory().getName())){
 
-                                player.sendMessage("Это чо такое ты чо на");
                                 // если не последняя страница и страниц больше 1, то перекл на след
                                 if (!(event.getClickedInventory().getName().equals(getLastPage().getName())) && (getAhPages().size() > 1)) {
                                     if(getAhPages().size() > (i + 1)){
                                         openInventory(getAhPages().get(i + 1).getInventory(), event, 53);
-                                        player.sendMessage("Вперед надо");
                                         // если не первая страница и не единственная страница, перекл на пред
                                     }
                                 }
                                 if(!(event.getClickedInventory().getName().equals(getAhPages().get(0).getTitle())) && getAhPages().size() > 1){
                                     if((i - 1) >= 0){
                                         openInventory(getAhPages().get(i - 1).getInventory(), event, 45);
-                                        player.sendMessage("Назад надо");
                                     }
                                 }
                             } else continue;
                             break;
                         }
+
+//                        if(event.getSlot() == 47){
+//                            auctionSettings.getSorting().put(player, !auctionSettings.getSorting().get(player));
+//                        }
+
                     }
                     event.setCancelled(true);
             }
@@ -108,7 +141,6 @@ public class AuctionPageListener implements Listener {
     public void openInventory(Inventory openingInventory, InventoryClickEvent event, int slot) {
         if (openingInventory != null){
             if (event.getSlot() == slot) {
-                event.getWhoClicked().sendMessage("da " + getAhPages().size());
                 event.getWhoClicked().openInventory(openingInventory);
                 event.setCancelled(true);
             } else return;

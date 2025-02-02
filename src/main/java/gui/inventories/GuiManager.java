@@ -1,8 +1,11 @@
 package gui.inventories;
 
+import gui.AuctionItem;
+import gui.AuctionManager;
 import gui.holders.AcceptHolder;
 import gui.holders.MainPageHolder;
 import gui.holders.StorageHolder;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GuiManager {
 
@@ -22,6 +26,8 @@ public class GuiManager {
 //        }
 //        return instance;
 //    }
+    private static ArrayList<String> sortingUp;
+    private static ArrayList<String> sortingDown;
 
     private static MainPageInventory mainPage;
     private static MainPageInventory acceptPage;
@@ -29,6 +35,14 @@ public class GuiManager {
 
 
     private static ArrayList<PageInventory> ahPages = new ArrayList<>();
+
+
+
+    private static HashMap<Player, Inventory> playersInventories = new HashMap<>();
+
+    public static HashMap<Player, Inventory> getPlayersInventories() {
+        return playersInventories;
+    }
 
     public static ItemStack greenGlassPane;
     public static ItemStack yellowGlassPane;
@@ -43,6 +57,7 @@ public class GuiManager {
 
 
         initialisePanes();
+//        initialiseSortingLores();
 
     }
 
@@ -66,6 +81,13 @@ public class GuiManager {
         return ahPages.get(ahPages.size() - 1).getInventory();
     }
 
+//    private void initialiseSortingLores(){
+//        sortingUp.add(ChatColor.BOLD + (ChatColor.WHITE + "Сортировать: раньше"));
+//        sortingUp.add(ChatColor.BOLD + (ChatColor.GRAY + "Сортировать: позже"));
+//
+//        sortingUp.add(ChatColor.BOLD + (ChatColor.GRAY + "Сортировать: раньше"));
+//        sortingUp.add(ChatColor.BOLD + (ChatColor.WHITE + "Сортировать: позже"));
+//    }
 
     private void initialisePanes(){
         greenGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
@@ -106,6 +128,22 @@ public class GuiManager {
         }
         return pane;
     }
+
+
+    public static ItemStack getSortingItem(boolean bool){
+        ItemStack item = new ItemStack(Material.WATCH);
+        ItemMeta meta = item.getItemMeta();
+
+        if(bool){
+            meta.setLore(sortingUp);
+        } else {
+            meta.setLore(sortingDown);
+        }
+
+        item.setItemMeta(meta);
+        return item;
+    }
+
 
     public static void removeItems(Inventory inventory, ItemStack item, int amount) {
         if (item == null || amount <= 0) return; // Проверка на null и количество
@@ -150,6 +188,36 @@ public class GuiManager {
             player.setItemInHand(new ItemStack(Material.AIR)); // Очищаем слот
             player.sendMessage("Итерация");
         }
+    }
+
+    public static void createStorageInventory(Player player){
+        if(AuctionManager.getPlayersItems().containsKey(player)){
+
+
+            Inventory inventory = Bukkit.createInventory(new StorageHolder(), 54, "Ваше хранилище");
+
+            inventory.setItem(49, yellowGlassPane);
+
+            for (AuctionItem auctionItem : AuctionManager.getPlayersItems().get(player)) {
+                inventory.addItem(auctionItem.getItemStack());
+            }
+
+            playersInventories.put(player, inventory);
+        }
+    }
+
+    public static void openStorageInventory(Player player){
+
+        if(playersInventories.containsKey(player)){
+
+            player.openInventory(playersInventories.get(player));
+
+        } else {
+
+            player.sendMessage("У вас нет предметов на продаже.");
+
+        }
+
     }
 
 }

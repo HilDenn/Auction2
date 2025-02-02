@@ -14,7 +14,8 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        auctionSettings.getAccept().put(player, true);
+        auctionSettings.getAcceptOnAuctionPages().put(player, true);
+        auctionSettings.getAcceptOnStoragePage().put(player, true);
         player.sendMessage("Halo");
     }
 

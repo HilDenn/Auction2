@@ -10,6 +10,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static gui.inventories.GuiManager.getAhPages;
+import static gui.inventories.GuiManager.getSortingItem;
 
 public class PageInventory {
 
@@ -26,11 +27,11 @@ public class PageInventory {
         this.number = getAhPages().size() + 1;
 
         this.inventory = Bukkit.createInventory(new PagesHolder(), 54, "Страница " + number);
-        System.out.println("Инвентарь создан ауе брбр Inventory has been created");
 
         ItemStack yellowPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.YELLOW + "На главную страницу"), "yellow");
 
         inventory.setItem(49, yellowPane);
+        inventory.setItem(47, getSortingItem(true));
 
         getAhPages().add(this);
 
@@ -38,11 +39,11 @@ public class PageInventory {
             getAhPages().get(getAhPages().size() - 2).getInventory().setItem(53, GuiManager.greenGlassPane);
             getAhPages().get(getAhPages().size() - 1).getInventory().setItem(45, GuiManager.redGlassPane);
         }
+
+
     }
 
-//    public ArrayList<PageInventory> getAhPages() {
-//        return ahPages;
-//    }
+
 
     public Inventory getInventory() {
         return inventory;

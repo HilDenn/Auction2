@@ -16,14 +16,40 @@ public class AuctionSettings {
         return instance;
     }
 
-    private HashMap<Player, Boolean> accept = new HashMap<>();
+    private HashMap<Player, Boolean> acceptOnAuctionPages = new HashMap<>();
 
-    public HashMap<Player, Boolean> getAccept() {
-        return accept;
+    public HashMap<Player, Boolean> getAcceptOnAuctionPages() {
+        return acceptOnAuctionPages;
     }
 
-    public boolean isAcceptOn(Player player){
-        if(accept.containsKey(player)) return accept.get(player);
+    public boolean isAcceptOnAuc(Player player){
+        if(acceptOnAuctionPages.containsKey(player)) return acceptOnAuctionPages.get(player);
         return false;
+
     }
+
+    private HashMap<Player, Boolean> acceptOnStoragePage = new HashMap<>();
+
+    public HashMap<Player, Boolean> getAcceptOnStoragePage() {
+        return acceptOnStoragePage;
+    }
+
+    public boolean isAcceptOnStorage(Player player){
+        if(acceptOnStoragePage.containsKey(player)) return acceptOnStoragePage.get(player);
+        return false;
+
+    }
+
+//    private HashMap<Player, Boolean> sorting = new HashMap<>();
+//
+//    public HashMap<Player, Boolean> getSorting() {
+//        return sorting;
+//    }
+//
+//    public boolean isSortingUp(Player player){
+//        if(sorting.containsKey(player)) return sorting.get(player);
+//        return false;
+//
+//    }
+
 }

@@ -15,6 +15,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import static gui.AuctionManager.getAuctionItems;
+import static gui.AuctionManager.getPlayersItems;
 import static gui.inventories.GuiManager.*;
 
 public class AuctionItem {
@@ -42,17 +43,23 @@ public class AuctionItem {
         lore.add(ChatColor.DARK_GRAY + "Номер предмета: " + this.number);
 
 
-
         ItemStack item = itemStack.clone();
         ItemMeta meta = item.getItemMeta();
         meta.setLore(lore);
         item.setItemMeta(meta);
         item.setAmount(amount);
-        player.sendMessage(lore.get(2));
+
 
 //        player.getInventory().addItem(item);
+        // todo
 
         getAuctionItems().add(this);
+
+//        if(getPlayersItems().get(player) == null) {
+//            getPlayersItems().put(player, new ArrayList<>());
+//        }
+//
+//        getPlayersItems().get(player).add(this);
 
         this.itemStack = item;
 
@@ -80,50 +87,4 @@ public class AuctionItem {
         return number;
     }
 
-
-
-//    public void sellItem(){
-//        if(getLastPage().getItem(getLastPage().getSize() - 10) != null){
-//            player.sendMessage("Должно работать вроде");
-//            PageInventory newPage = new PageInventory();
-//        }
-//
-//        getLastPage().addItem(this.getItemStack());
-//        removeItemFromMainHand(this.getPlayer(), this.getAmount());
-//
-//    }
-//
-//    public void buyItem(InventoryClickEvent event){
-//        if(event.getCurrentItem().getType() == Material.AIR) return;
-//
-//        int slot = event.getSlot();
-//        ItemStack is = event.getCurrentItem();
-//        if(slot >= 45 && slot <= 53) return;
-//
-//        ItemMeta meta = is.getItemMeta();
-//        if(meta.hasLore()) meta.setLore(null);
-//        is.setItemMeta(meta);
-//
-//        GuiManager.removeItems(event.getClickedInventory(), this.getItemStack(), this.getAmount());
-//        player.getInventory().addItem(is);
-//
-//        if(getLastPage().getItem(0) == null && getAhPages().size() > 1){
-//            getAhPages().remove(getLastPage());
-//            getLastPage().remove(53);
-//        }
-//        player.openInventory(getLastPage());
-//
-////        for(int i = this.number; i <= auctionItems.size(); i++){
-////             ==
-////        }
-//    }
-//
-//    public AuctionItem getAuctionItemByItemStack(ItemStack itemStack) {
-//        for (AuctionItem item : auctionItems) {
-//            if (itemStack.isSimilar(item.getItemStack())) {
-//                return item;
-//            }
-//        }
-//        return null;
-//    }
 }
