@@ -37,6 +37,7 @@ static AuctionSettings auctionSettings = AuctionSettings.getInstance();
     private static MainPageInventory storage;
 
 
+
     private static ArrayList<PageInventory> ahPages = new ArrayList<>();
 
 
@@ -47,9 +48,9 @@ static AuctionSettings auctionSettings = AuctionSettings.getInstance();
         return playersInventories;
     }
 
-    public static ItemStack greenGlassPane;
-    public static ItemStack yellowGlassPane;
-    public static ItemStack redGlassPane;
+    public static ItemStack getGreenGlassPane;
+    public static ItemStack getYellowGlassPane;
+    public static ItemStack getRedGlassPane;
 
 
     public GuiManager() {
@@ -57,6 +58,8 @@ static AuctionSettings auctionSettings = AuctionSettings.getInstance();
         mainPage = new MainPageInventory(new MainPageHolder(), "Главная страница", 54);
         acceptPage = new MainPageInventory(new AcceptHolder(), "Вы подтверждаете действие?", 27);
         storage = new MainPageInventory(new StorageHolder(), "Ваше хранилище", 54);
+        ItemTypeCheckerInventory itemTypeCheckerInventory = new ItemTypeCheckerInventory();
+
 
 
         initialisePanes();
@@ -93,23 +96,23 @@ static AuctionSettings auctionSettings = AuctionSettings.getInstance();
     }
 
     private void initialisePanes(){
-        greenGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
-        ItemMeta greenMeta = greenGlassPane.getItemMeta();
+        getGreenGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
+        ItemMeta greenMeta = getGreenGlassPane.getItemMeta();
         greenMeta.setDisplayName(ChatColor.GREEN + "Вперед");
-        greenGlassPane.setItemMeta(greenMeta);
-        greenGlassPane.setDurability((short) 5);
+        getGreenGlassPane.setItemMeta(greenMeta);
+        getGreenGlassPane.setDurability((short) 5);
 
-        yellowGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
-        ItemMeta yellowMeta = yellowGlassPane.getItemMeta();
+        getYellowGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
+        ItemMeta yellowMeta = getYellowGlassPane.getItemMeta();
         yellowMeta.setDisplayName(ChatColor.YELLOW + "На главную");
-        yellowGlassPane.setItemMeta(yellowMeta);
-        yellowGlassPane.setDurability((short) 4);
+        getYellowGlassPane.setItemMeta(yellowMeta);
+        getYellowGlassPane.setDurability((short) 4);
 
-        redGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
-        ItemMeta redMeta = redGlassPane.getItemMeta();
+        getRedGlassPane = new ItemStack(Material.STAINED_GLASS_PANE);
+        ItemMeta redMeta = getRedGlassPane.getItemMeta();
         redMeta.setDisplayName(ChatColor.RED + "Назад");
-        redGlassPane.setItemMeta(redMeta);
-        redGlassPane.setDurability((short) 14);
+        getRedGlassPane.setItemMeta(redMeta);
+        getRedGlassPane.setDurability((short) 14);
     }
 
     public static ItemStack createGlassPane(String name, String color){
@@ -132,6 +135,13 @@ static AuctionSettings auctionSettings = AuctionSettings.getInstance();
         return pane;
     }
 
+    public static ItemStack getTypeCheckerItem(){
+        ItemStack item = new ItemStack(Material.COMPASS);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.GREEN + "Выбрать тип предмета");
+        item.setItemMeta(meta);
+        return item;
+    }
 
     public static ItemStack getSortingItem(boolean bool){
         ItemStack item = new ItemStack(Material.WATCH);
@@ -200,7 +210,8 @@ static AuctionSettings auctionSettings = AuctionSettings.getInstance();
             Inventory inventory = Bukkit.createInventory(new StorageHolder(), 54, "Ваше хранилище");
 
             inventory.setItem(47, getSortingItem(auctionSettings.isSortingUpStoragePage(player)));
-            inventory.setItem(49, yellowGlassPane);
+            inventory.setItem(49, getYellowGlassPane);
+            inventory.setItem(52, getTypeCheckerItem());
 
             for (AuctionItem auctionItem : AuctionManager.getPlayersItems().get(player)) {
                 inventory.addItem(auctionItem.getItemStack());

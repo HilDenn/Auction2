@@ -1,22 +1,14 @@
 package gui;
 
-import gui.inventories.GuiManager;
-import gui.inventories.PageInventory;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
 
 import static gui.AuctionManager.getAuctionItems;
-import static gui.AuctionManager.getPlayersItems;
-import static gui.inventories.GuiManager.*;
 
 public class AuctionItem {
 
@@ -50,16 +42,7 @@ public class AuctionItem {
         item.setAmount(amount);
 
 
-//        player.getInventory().addItem(item);
-        // todo
-
         getAuctionItems().add(this);
-
-//        if(getPlayersItems().get(player) == null) {
-//            getPlayersItems().put(player, new ArrayList<>());
-//        }
-//
-//        getPlayersItems().get(player).add(this);
 
         this.itemStack = item;
 

@@ -1,14 +1,11 @@
 package listener;
 
-import gui.AuctionItem;
 import gui.AuctionManager;
 import gui.AuctionSettings;
-import gui.holders.AcceptHolder;
-import gui.holders.MainPageHolder;
-import gui.holders.PagesHolder;
-import gui.holders.StorageHolder;
+import gui.ItemTypeChecker;
+import gui.holders.*;
 import gui.inventories.GuiManager;
-import gui.inventories.Storage;
+import gui.inventories.ItemTypeCheckerInventory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,7 +27,8 @@ public class AuctionPageListener implements Listener {
         if (event.getInventory().getHolder() instanceof AcceptHolder ||
                 event.getInventory().getHolder() instanceof MainPageHolder ||
                 event.getInventory().getHolder() instanceof PagesHolder ||
-                event.getInventory().getHolder() instanceof StorageHolder){
+                event.getInventory().getHolder() instanceof StorageHolder ||
+                event.getInventory().getHolder() instanceof ItemTypeCheckerHolder){
             event.setCancelled(true);
 
             if (event.getCurrentItem() == null) return;
@@ -80,8 +78,15 @@ public class AuctionPageListener implements Listener {
                 if(event.getSlot() == 47){
 
                     auctionSettings.getSortingStoragePage().put(player, !auctionSettings.isSortingUpStoragePage(player));
-                    AuctionManager.arrangeItemsInStorage(player);
+                    if(AuctionManager.itemTypeCheckerStorageName != null) {
+                        AuctionManager.arrangeItemsInStorage(player, AuctionManager.itemTypeCheckerStorageName);
+                    } else {
+                        AuctionManager.arrangeItemsInStorage(player, "everything");
+                    }
 
+                } else if(event.getSlot() == 52){
+                    player.openInventory(ItemTypeCheckerInventory.getItemTypeCheckerInventory());
+                    AuctionManager.inventoryBeforeItemTypeCheckerInventoryName = "storage";
                 }
 
 
@@ -139,11 +144,50 @@ public class AuctionPageListener implements Listener {
 
                         if(event.getSlot() == 47){
                             auctionSettings.getSortingAuctionPage().put(player, !auctionSettings.isSortingUpAuctionPage(player));
-                            AuctionManager.arrangeItems(player);
+
+                            if(AuctionManager.itemTypeCheckerAuctionName != null) {
+                                AuctionManager.arrangeItems(player, AuctionManager.itemTypeCheckerAuctionName);
+                            } else {
+                                AuctionManager.arrangeItems(player, "everything");
+                            }
+                        } else if(event.getSlot() == 52){
+                            player.openInventory(ItemTypeCheckerInventory.getItemTypeCheckerInventory());
+                            AuctionManager.inventoryBeforeItemTypeCheckerInventoryName = "auction";
                         }
 
                     }
                     event.setCancelled(true);
+
+
+
+            } else if(event.getClickedInventory().getHolder() instanceof ItemTypeCheckerHolder){
+                player.sendMessage("Прашло карочи 1");
+                event.setCancelled(true);
+                if(event.getCurrentItem().getType() != Material.AIR){
+                    if(AuctionManager.inventoryBeforeItemTypeCheckerInventoryName.equals("auction")){
+                        AuctionManager.arrangeItems(player, ItemTypeChecker.getItemType(event.getCurrentItem()));
+                        AuctionManager.itemTypeCheckerAuctionName = ItemTypeChecker.getItemType(event.getCurrentItem());
+                        player.openInventory(getLastPage());
+                        player.sendMessage("Прашло карочи в аук");
+                    } else if(AuctionManager.inventoryBeforeItemTypeCheckerInventoryName.equals("storage")){
+                        AuctionManager.arrangeItemsInStorage(player, ItemTypeChecker.getItemType(event.getCurrentItem()));
+                        AuctionManager.itemTypeCheckerStorageName = ItemTypeChecker.getItemType(event.getCurrentItem());
+                        player.openInventory(getPlayersInventories().get(player));
+                        player.sendMessage("Прашло карочи в стор");
+                    } else {
+                        AuctionManager.arrangeItems(player,ItemTypeChecker.getItemType(event.getCurrentItem()));
+                        player.openInventory(getLastPage());
+                        player.sendMessage("Прашло карочи проста");
+                    }
+                }
+                if(event.getSlot() == 49){
+                    if(AuctionManager.inventoryBeforeItemTypeCheckerInventoryName.equals("auction")){
+                        player.openInventory(getLastPage());
+                    } else if(AuctionManager.inventoryBeforeItemTypeCheckerInventoryName.equals("storage")){
+                        player.openInventory(getPlayersInventories().get(player));
+                    }
+
+                }
             }
         }
     }

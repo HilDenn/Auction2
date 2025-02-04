@@ -6,11 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-import static gui.inventories.GuiManager.getAhPages;
-import static gui.inventories.GuiManager.getSortingItem;
+import static gui.inventories.GuiManager.*;
 
 public class PageInventory {
 
@@ -32,12 +28,13 @@ public class PageInventory {
 
         inventory.setItem(49, yellowPane);
         inventory.setItem(47, getSortingItem(true));
+        inventory.setItem(52, getTypeCheckerItem());
 
         getAhPages().add(this);
 
         if(getAhPages().size() > 1){
-            getAhPages().get(getAhPages().size() - 2).getInventory().setItem(53, GuiManager.greenGlassPane);
-            getAhPages().get(getAhPages().size() - 1).getInventory().setItem(45, GuiManager.redGlassPane);
+            getAhPages().get(getAhPages().size() - 2).getInventory().setItem(53, GuiManager.getGreenGlassPane);
+            getAhPages().get(getAhPages().size() - 1).getInventory().setItem(45, GuiManager.getRedGlassPane);
         }
 
 
