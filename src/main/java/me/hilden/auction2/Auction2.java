@@ -1,6 +1,7 @@
 package me.hilden.auction2;
 
 import command.AuctionCommands;
+import gui.UpdateItemsTime;
 import gui.inventories.GuiManager;
 import listener.AuctionPageListener;
 import listener.PlayerJoinListener;
@@ -17,6 +18,7 @@ public final class Auction2 extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        new UpdateItemsTime().runTaskTimer(this, 0, 200);
 
         Bukkit.getPluginManager().registerEvents(auctionPageListener, this);
         Bukkit.getPluginManager().registerEvents(playerJoinListener, this);

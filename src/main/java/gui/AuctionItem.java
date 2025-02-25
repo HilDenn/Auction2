@@ -18,21 +18,41 @@ public class AuctionItem {
         return lore;
     }
 
+//    public void initialiseLore(){
+//        lore.add(ChatColor.GOLD + "Купить за " + ChatColor.GREEN + price + "$");
+//        lore.add(ChatColor.BLUE + "Продает: " + ChatColor.WHITE + player.getName());
+//        lore.add(ChatColor.YELLOW + "Истекает через: " + formattedTime);
+//        lore.add(ChatColor.DARK_GRAY + String.valueOf(this.number));
+//    }
+
+
+
     private Player player;
     private ItemStack itemStack;
     private int price;
     private int amount;
     private UUID number;
+    private int minutesBeforeExpiration;
+
+
+    public String getFormattedTime(){
+        return String.format("%02d:%02d", this.getMinutesBeforeExpiration() / 60, this.getMinutesBeforeExpiration() % 60);
+    }
+//    private String formattedTime = String.format("%02d:%02d", this.getMinutesBeforeExpiration() / 60, this.getMinutesBeforeExpiration() % 60);
 
     public AuctionItem(Player player, ItemStack itemStack, int amount, int price) {
         this.player = player;
         this.price = price;
         this.amount = amount;
         this.number = UUID.randomUUID();
+        this.minutesBeforeExpiration = 2;
 
         lore.add(ChatColor.GOLD + "Купить за " + ChatColor.GREEN + price + "$");
         lore.add(ChatColor.BLUE + "Продает: " + ChatColor.WHITE + player.getName());
-        lore.add(ChatColor.DARK_GRAY + "Номер предмета: " + this.number);
+        lore.add(ChatColor.YELLOW + "Истекает через: " + getFormattedTime());
+        lore.add(ChatColor.DARK_GRAY + String.valueOf(this.number));
+
+//        initialiseLore();
 
 
         ItemStack item = itemStack.clone();
@@ -46,7 +66,7 @@ public class AuctionItem {
 
         this.itemStack = item;
 
-        lore.clear();
+//        lore.clear();
     }
 
 
@@ -70,4 +90,15 @@ public class AuctionItem {
         return number;
     }
 
+    public int getMinutesBeforeExpiration() {
+        return minutesBeforeExpiration;
+    }
+
+    public void setMinutesBeforeExpiration(int minutesBeforeExpiration) {
+        this.minutesBeforeExpiration = minutesBeforeExpiration;
+    }
+
+//    public String getFormattedTime() {
+//        return formattedTime;
+//    }
 }

@@ -78,11 +78,12 @@ public class AuctionPageListener implements Listener {
                 if(event.getSlot() == 47){
 
                     auctionSettings.getSortingStoragePage().put(player, !auctionSettings.isSortingUpStoragePage(player));
-                    if(AuctionManager.itemTypeCheckerStorageName != null) {
+
+//                    if(AuctionManager.itemTypeCheckerStorageName.isEmpty()) {
                         AuctionManager.arrangeItemsInStorage(player, AuctionManager.itemTypeCheckerStorageName);
-                    } else {
-                        AuctionManager.arrangeItemsInStorage(player, "everything");
-                    }
+//                    } else {
+//                        AuctionManager.arrangeItemsInStorage(player, "everything");
+//                    }
 
                 } else if(event.getSlot() == 52){
                     player.openInventory(ItemTypeCheckerInventory.getItemTypeCheckerInventory());
@@ -145,11 +146,12 @@ public class AuctionPageListener implements Listener {
                         if(event.getSlot() == 47){
                             auctionSettings.getSortingAuctionPage().put(player, !auctionSettings.isSortingUpAuctionPage(player));
 
-                            if(AuctionManager.itemTypeCheckerAuctionName != null) {
-                                AuctionManager.arrangeItems(player, AuctionManager.itemTypeCheckerAuctionName);
-                            } else {
-                                AuctionManager.arrangeItems(player, "everything");
-                            }
+//                            if(AuctionManager.itemTypeCheckerAuctionName != null){
+                            AuctionManager.arrangeItems(player, AuctionManager.itemTypeCheckerAuctionName);
+//                            }
+//                            else {
+//                                AuctionManager.arrangeItems(player, "everything");
+//                            }
                         } else if(event.getSlot() == 52){
                             player.openInventory(ItemTypeCheckerInventory.getItemTypeCheckerInventory());
                             AuctionManager.inventoryBeforeItemTypeCheckerInventoryName = "auction";

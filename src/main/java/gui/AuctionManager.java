@@ -5,7 +5,9 @@ import gui.holders.PagesHolder;
 import gui.holders.StorageHolder;
 import gui.inventories.GuiManager;
 import gui.inventories.PageInventory;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -95,6 +97,8 @@ public class AuctionManager {
 
             if(itemTypeCheckerStorageName != null){
                 arrangeItemsInStorage(item.getPlayer(), itemTypeCheckerStorageName);
+            } else {
+                arrangeItemsInStorage(item.getPlayer(), "everything");
             }
 
 
@@ -118,6 +122,8 @@ public class AuctionManager {
 
             if(itemTypeCheckerStorageName != null){
                 arrangeItemsInStorage(item.getPlayer(), itemTypeCheckerStorageName);
+            } else {
+                arrangeItemsInStorage(item.getPlayer(), "everything");
             }
 
 
@@ -148,6 +154,8 @@ public class AuctionManager {
 
         if(itemTypeCheckerStorageName != null){
             arrangeItems(player, itemTypeCheckerAuctionName);
+        } else {
+            arrangeItems(player, "everything");
         }
 
 //        arrangeItems(player, "everything");
@@ -441,48 +449,70 @@ public class AuctionManager {
 
                 for (int i = getPlayersItems().get(player).size() - 1; i >= 0; i--) {
 
-                    if(sortingType.equals("everything")) {
+
+                    if(sortingType == null){
                         itemTypeCheckerStorageName = "everything";
                         inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
-                    } else if(sortingType.equals("weapon")){
-                        itemTypeCheckerStorageName = "weapon";
-                        if(ItemTypeChecker.isWeapon(getPlayersItems().get(player).get(i).getItemStack().getType())){
-                            inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
-                        }
-                    } else if(sortingType.equals("tool")){
-                        itemTypeCheckerStorageName = "tool";
-                        if(ItemTypeChecker.isTool(getPlayersItems().get(player).get(i).getItemStack().getType())){
-                            inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
-                        }
-                    } else if(sortingType.equals("armor")){
-                        itemTypeCheckerStorageName = "armor";
-                        if(ItemTypeChecker.isArmor(getPlayersItems().get(player).get(i).getItemStack().getType())){
-                            inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
-                        }
-                    } else if(sortingType.equals("block")){
-                        itemTypeCheckerStorageName = "block";
-                        if(ItemTypeChecker.isBlock(getPlayersItems().get(player).get(i).getItemStack().getType())){
-                            inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
-                        }
-                    } else if(sortingType.equals("food")){
-                        itemTypeCheckerStorageName = "food";
-                        if(ItemTypeChecker.isEdible(getPlayersItems().get(player).get(i).getItemStack().getType())){
-                            inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
-                        }
-                    } else if(sortingType.equals("mechanism")){
-                        itemTypeCheckerStorageName = "mechanism";
-                        if(ItemTypeChecker.isMechanism(getPlayersItems().get(player).get(i).getItemStack().getType())){
-                            inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
-                        }
-                    } else if(sortingType.equals("farm")){
-                        itemTypeCheckerStorageName = "farm";
-                        if(ItemTypeChecker.isFarmItem(getPlayersItems().get(player).get(i).getItemStack().getType())){
-                            inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
-                        }
                     } else {
+                    switch (sortingType) {
+                        case "everything":
+                            itemTypeCheckerStorageName = "everything";
+                            inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                            break;
+                        case "weapon":
+                            itemTypeCheckerStorageName = "weapon";
+                            if (ItemTypeChecker.isWeapon(getPlayersItems().get(player).get(i).getItemStack()
+                                    .getType())) {
+                                inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                            }
+                            break;
+                        case "tool":
+                            itemTypeCheckerStorageName = "tool";
+                            if (ItemTypeChecker.isTool(getPlayersItems().get(player).get(i).getItemStack().getType())) {
+                                inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                            }
+                            break;
+                        case "armor":
+                            itemTypeCheckerStorageName = "armor";
+                            if (ItemTypeChecker.isArmor(getPlayersItems().get(player).get(i).getItemStack()
+                                    .getType())) {
+                                inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                            }
+                            break;
+                        case "block":
+                            itemTypeCheckerStorageName = "block";
+                            if (ItemTypeChecker.isBlock(getPlayersItems().get(player).get(i).getItemStack()
+                                    .getType())) {
+                                inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                            }
+                            break;
+                        case "food":
+                            itemTypeCheckerStorageName = "food";
+                            if (ItemTypeChecker.isEdible(getPlayersItems().get(player).get(i).getItemStack()
+                                    .getType())) {
+                                inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                            }
+                            break;
+                        case "mechanism":
+                            itemTypeCheckerStorageName = "mechanism";
+                            if (ItemTypeChecker.isMechanism(getPlayersItems().get(player).get(i).getItemStack()
+                                    .getType())) {
+                                inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                            }
+                            break;
+                        case "farm":
+                            itemTypeCheckerStorageName = "farm";
+                            if (ItemTypeChecker.isFarmItem(getPlayersItems().get(player).get(i).getItemStack()
+                                    .getType())) {
+                                inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                            }
+                            break;
+                        default:
 
-                        inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
+                            inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
 
+                            break;
+                        }
                     }
 
 //                    inv.addItem(getPlayersItems().get(player).get(i).getItemStack());
@@ -516,7 +546,20 @@ public class AuctionManager {
 
     public static void removeItemFromStorage(Player player, InventoryClickEvent event, boolean isAcceptOn){
         if(event.getClickedInventory().getHolder() instanceof StorageHolder){
-            itemBeforeAcceptPage = getAuctionItemByItemStack(event.getCurrentItem());
+            itemBeforeAcceptPage = getAuctionItemByItemStackInPlayersItems(event.getCurrentItem(), player);
+//            itemBeforeAcceptPage = getAuctionItemByItemStack(event.getCurrentItem());
+
+//            if (itemBeforeAcceptPage == null || itemBeforeAcceptPage.getMinutesBeforeExpiration() < 0){
+////                itemBeforeAcceptPage = getAuctionItemByItemStackInPlayersItems(event.getCurrentItem(), player);
+//
+//                AuctionManager.getPlayersItems().get(player).remove(itemBeforeAcceptPage);
+//                AuctionManager.arrangeItemsInStorage(player, "everything");
+//                player.getInventory().addItem(getItemWithoutLore(event.getCurrentItem()));
+//                player.sendMessage(getPlayersItems().get(player).toString());
+//                player.sendMessage("Ну короче работает");
+//                return;
+//            }
+
             player.sendMessage("стораге плаер");
             if(isAcceptOn){
                 inventoryBeforeAcceptPageName = "Storage";
@@ -524,8 +567,8 @@ public class AuctionManager {
                 player.openInventory(getAcceptPage().getInventory());
                 player.sendMessage("Открывай аццепт сука");
             } else {
-                AuctionManager.getPlayersItems().get(player).remove(getAuctionItemByItemStack(event.getCurrentItem()));
-                AuctionManager.getAuctionItems().remove(getAuctionItemByItemStack(event.getCurrentItem()));
+                AuctionManager.getPlayersItems().get(player).remove(itemBeforeAcceptPage);
+                AuctionManager.getAuctionItems().remove(itemBeforeAcceptPage);
                 AuctionManager.arrangeItems(player, "everything");
                 AuctionManager.arrangeItemsInStorage(player, "everything");
                 player.getInventory().addItem(getItemWithoutLore(itemBeforeAcceptPage.getItemStack()));
@@ -543,7 +586,11 @@ public class AuctionManager {
                 AuctionManager.arrangeItems(player, "everything");
                 AuctionManager.arrangeItemsInStorage(player, "everything");
                 player.getInventory().addItem(getItemWithoutLore(itemBeforeAcceptPage.getItemStack()));
-                player.openInventory(GuiManager.getPlayersInventories().get(player));
+                if(GuiManager.getPlayersInventories().containsKey(player)) {
+                    player.openInventory(GuiManager.getPlayersInventories().get(player));
+                } else {
+                    player.openInventory(GuiManager.getMainPage().getInventory());
+                }
             }
         }
 
@@ -551,7 +598,7 @@ public class AuctionManager {
 
         public static ItemStack getItemWithoutLore(ItemStack itemStack){
             ItemMeta meta = itemStack.getItemMeta();
-            if(meta.hasLore()){
+            if(meta != null && meta.hasLore()){
                 meta.setLore(null);
                 itemStack.setItemMeta(meta);
                 return itemStack;
@@ -559,13 +606,48 @@ public class AuctionManager {
         }
 
 
-        public static AuctionItem getAuctionItemByItemStack (ItemStack itemStack){
-            for (AuctionItem item : getAuctionItems()) {
-                if (itemStack.isSimilar(item.getItemStack())) {
+        public static AuctionItem getAuctionItemByItemStack(ItemStack itemStack){
+            for(AuctionItem item : getAuctionItems()){
+                if(itemStack.isSimilar(item.getItemStack())){
                     return item;
                 }
             }
             return null;
+        }
+
+    public static AuctionItem getAuctionItemByItemStackInPlayersItems(ItemStack itemStack, Player player){
+        for(AuctionItem item : getPlayersItems().get(player)){
+            if(itemStack.isSimilar(item.getItemStack())){
+                return item;
+            }
+        }
+        return null;
+    }
+
+        public static void changeTimeInLore(AuctionItem auctionItem){
+            ItemStack item = auctionItem.getItemStack();
+            ItemMeta meta = item.getItemMeta();
+            if(auctionItem.getMinutesBeforeExpiration() > 0){
+                auctionItem.getLore().set(2, ChatColor.YELLOW + "Истекает через: " + auctionItem.getFormattedTime());
+            } else {
+                auctionItem.getLore().set(2, ChatColor.RED + "Истекло :(");
+            }
+//            auctionItem.getLore().set(2, ChatColor.YELLOW + "Истекает через: " + auctionItem.getFormattedTime());
+            meta.setLore(auctionItem.getLore());
+            item.setItemMeta(meta);
+        }
+
+
+        public static void expirationAuctionItem(AuctionItem auctionItem){
+            auctionItems.remove(auctionItem);
+            changeTimeInLore(auctionItem);
+
+            if(auctionItems.isEmpty()){
+                for(int i = 0; i <= getLastPage().getViewers().size() - 1; i++){
+                    HumanEntity player = getLastPage().getViewers().get(i);
+                    player.openInventory(getMainPage().getInventory());
+                }
+            }
         }
 
 
