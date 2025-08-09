@@ -24,19 +24,21 @@ public class PageInventory {
 
         this.inventory = Bukkit.createInventory(new PagesHolder(), 54, "Страница " + number);
 
-        ItemStack yellowPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.YELLOW + "На главную страницу"), "yellow");
+//        ItemStack yellowPane = GuiManager.createGlassPane(ChatColor.BOLD + (ChatColor.YELLOW + "На главную страницу"), "yellow");
 
-        inventory.setItem(49, yellowPane);
-        inventory.setItem(47, getSortingItem(true));
-        inventory.setItem(52, getTypeCheckerItem());
+//        inventory.setItem(49, yellowPane);
+//        inventory.setItem(47, getSortingItem(true));
+//        inventory.setItem(52, getTypeCheckerItem());
+        placeLowerStringItems();
 
-        getAhPages().add(this);
+//        getAhPages().add(this);
 
-        if(getAhPages().size() > 1){
-            getAhPages().get(getAhPages().size() - 2).getInventory().setItem(53, GuiManager.getGreenGlassPane);
-            getAhPages().get(getAhPages().size() - 1).getInventory().setItem(45, GuiManager.getRedGlassPane);
-        }
+//        if(getAhPages().size() > 1){
+//            getAhPages().get(getAhPages().size() - 2).getInventory().setItem(53, GuiManager.getGreenGlassPane);
+//            getAhPages().get(getAhPages().size() - 1).getInventory().setItem(45, GuiManager.getRedGlassPane);
+//        }
 
+        placeGlassPanes();
 
     }
 
@@ -60,5 +62,18 @@ public class PageInventory {
 
     public Inventory getLastInventory() {
         return getAhPages().get(getAhPages().size() - 1).getInventory();
+    }
+
+    public void placeLowerStringItems(){
+        inventory.setItem(49, getYellowGlassPane);
+        inventory.setItem(47, getSortingItem(true));
+        inventory.setItem(52, getTypeCheckerItem());
+    }
+
+    public void placeGlassPanes(){
+        if(getAhPages().size() > 1){
+            getAhPages().get(getAhPages().size() - 2).getInventory().setItem(53, GuiManager.getGreenGlassPane);
+            getAhPages().get(getAhPages().size() - 1).getInventory().setItem(45, GuiManager.getRedGlassPane);
+        }
     }
 }

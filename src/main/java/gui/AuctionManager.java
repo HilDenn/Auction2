@@ -11,6 +11,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -39,8 +40,10 @@ public class AuctionManager {
     public static void sellItem(Player player, ItemStack itemStack, int amount, int price){
         if(getAhPages().isEmpty()){
             PageInventory firstPage = new PageInventory();
+            getAhPages().add(firstPage);
         } else if(getLastPage() != null && getLastPage().getItem(getLastPage().getSize() - 10) != null){
             PageInventory newPage = new PageInventory();
+            getAhPages().add(newPage);
         }
 
 
@@ -162,6 +165,7 @@ public class AuctionManager {
 
     }
 
+//    ArrayList<InventoryView> views = new ArrayList<>();
 
     public static void arrangeItems(Player player, String sortingType){
         itemTypeCheckerAuctionName = sortingType;
@@ -648,6 +652,11 @@ public class AuctionManager {
                     player.openInventory(getMainPage().getInventory());
                 }
             }
+        }
+
+        public static void createLocalAuctionInventory(Player player, String sortingType){
+            ArrayList<PageInventory> localPages = getAhPages();
+
         }
 
 
